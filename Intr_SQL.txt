@@ -1,0 +1,88 @@
+#SQL se divide em 5 subgrupos:
+
+/ DQL - DATA QUERY LANGUAGE
+
+    SELECT *(todas as colunas) FROM nomedatabela; - seleciona uma determinada tabela...
+    SELECT codigo, descricao FROM nomedatabela; - seleciona uma determinada tabela, com determinadas colunas...
+
+    SELECT p.codigo AS cod, p.descricao AS desc, p.preco AS pre, p.codigo_produto AS ctp FROM produtos AS p; -  colocando apelidos
+
+/ DML - DATA MANIPULATION LANGUAGE
+
+    INSERT, UPDATE, DELETE
+
+    INSERT INTO tipos_produto (descricao) VALUES ('Notebook');
+    INSERT INTO produtos (descricao, preco, codigo_tipo_produto) VALUES ('Notebook', 1200, 1);
+
+    UPDATE tipos_produto set descricao = 'Nobreak' WHERE codigo = 3;
+    UPDATE produtos set descricao = 'Notebook', preco = 2.800 WHERE codigo = 20;
+
+    DELETE FROM tipos_produto WHERE codigo = 3;
+
+    obs: SEMPRE USAR O WHERE, SENÃO VAI SUBSTITUIR A PORRA TODA
+
+/ DDL - DATA DEFINITION LANGUAGE
+
+    CREATE, ALTER, DROP
+
+    CREATE - Usado para criar um banco de dados, tabela e outros objetos em um banco de dados;
+    ALTER - Usado para alterar a estrutura de tabelas ou outro objeto em um banco de dados;
+    DROP - Usado para apagar bancos de dados, tabelas e outros objetos;
+
+    CREATE DATABASE financeiro;
+    CREATE TABLE tipos_produto (codigo INT PRIMARY KEY, descricao VARCHAR(50));
+
+    ALTER TABLE tipos_produto ADD peso DECIMAL(8,2);
+
+    DROP TABLE tipos_produto;
+    No exemplo acima estamos apagando a tabela 'tipos_produto'. Este comando apaga toda a
+    estrutura e os dados, desde que esta tabela não tenha relacionamentos.
+
+    DROP DATABASE financeiro;
+    No exemplo acima, excluímos o banco de dados 'financeiro' e qualquer tabela ou dado dentro dele.
+
+/ DCL - DATA CONTROL LANGUAGE
+
+    Grant, Revoke
+
+    GRANT - Usado para autorizar um usuário a executar ou setar operações no banco de dados;
+    REVOKE - Usado para remover ou restringir a capacidade de um usuário de executar operações;
+
+    GRANT SELECT ON tipos_produto TO geek;
+    No exemplo acima, estamos dando permissão de consulta na tabela tipos_produto para o usuário
+    'geek'.
+
+    REVOKE CREATE TABLE FROM geek;
+    No exemplo acima, estamos tirando a permissão de criação de tabelas no banco de dados do
+    usuário 'geek'.
+
+/ DTL -DATA TRANSACTION LANGUAGE
+
+    BEGIN, COMMIT, ROLLBACK
+
+    ****BEGIN (ou START TRANSACTION*) -
+    Usado para marcar o começo de uma
+    transação que pode ser completada ou
+    não.
+    COMMIT - Finaliza uma transação.
+    ROLLBACK - Faz com que as
+    mudanças nos dados existentes desde
+    o último COMMIT sejam descartadas.****
+
+    **Exemplo 1:
+    CREATE TABLE 'tipos_produtos' (codigo INT PRIMARY KEY, descricao VARCHAR(50));
+    BEGIN TRANSACTION; -- começamos a transação
+    INSERT INTO tipos_produtos VALUES ('Notebook');
+    INSERT INTO tipos_produtos VALUES ('Nobreak');
+    COMMIT; -- termina a transação e grava os dados
+    No exemplo acima, estamos iniciando a transação, inserindo os dados e salvando no banco.
+
+    **Exemplo 2:
+    CREATE TABLE 'tipos_produtos' (codigo INT PRIMARY KEY, descricao VARCHAR(50));
+    BEGIN TRANSACTION; -- começamos a transação
+    INSERT INTO tipos_produtos VALUES ('Notebook');
+    INSERT INTO tipos_produtos VALUES ('Nobreak');
+    ROLLBACK; -- as inserções das linhas acima foram desfeitas
+    No exemplo acima, estamos iniciando a transação, inserindo os dados mas note que o COMMIT não
+    foi executado, mas sim o ROLLBACK. Desta forma, as inserções foram desfeitas e não ficarão salvas
+    no banco.

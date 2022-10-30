@@ -1,0 +1,55 @@
+FUNÇÕES DATA E HORA...
+
+
+    CURDATE()...Exemplo
+    SELECT CURDATE() AS 'Data Atual';
+
+    CURTIME()...
+    Retorna a hora atual no formato hh:mm:ss
+
+    CURRENT_TIME()...
+    Faz o mesmo que CURTIME() usado anteriormente.
+
+    DATE_ADD(data, intervalo)...
+    Adiciona um intervalo à data. O intervalo pode ser uma data seguida de um horário. O
+    intervalo a ser somado pode ser em dias, dias e horas e minutos, dias e segundos, minutos e
+    segundos e etc.
+
+        SELECT DATE_ADD(CURDATE(), INTERVAL 3 DAY) AS 'Data de Vencimento';
+
+    DATE_SUB(data, intervalo)...
+    Subtrai um intervalo à data. A data pode ser uma data seguida de um horário. O intervalo a
+    ser subtraído pode ser em dias, dias e horas e minutos, dias e segundos, minutos e segundos,
+    etc.
+
+        SELECT DATE_SUB(CURDATE(), INTERVAL 10 DAY) AS 'Data de Matrícula';
+
+    DATEDIFF(expressão1, expressão2)...
+    Retorna o valor da diferença entre 'expressão1' e 'expressão2', podendo ambos serem uma
+    data ou data e horário.
+
+        SELECT DATEDIFF(CURDATE(), DATE_SUB(CURDATE(), INTERVAL 10 DAY)) AS 'Dias em Atraso';
+
+    DATE_FORMAT(data, formato)...
+    Retorna a data no formato especificado.
+
+        SELECT DATE_FORMAT(CURDATE(), '%d/%m/%Y') AS 'Data Formatada';
+    Retornamos a data atual formatada no padrão dd/mm/yyyy
+
+    DAYNAME(data)...
+    Retorna o dia da semana para a data.
+
+        SELECT DAYNAME(CURDATE()) AS 'Dia da Semana';
+
+    NOW()...
+    Retorna a data e hora atuais.
+
+        SELECT NOW() AS 'Data/Hora Atual';
+
+SUBCONSULTAS
+
+    SELECT nome, sobrenome
+    FROM funcionarios
+    WHERE id_escritorio IN (SELECT id FROM escritorios WHERE pais = 'Brasil');
+    No exemplo acima, estamos selecionando os campos 'nome' e 'sobrenome' da tabela de
+    funcionário onde o id do escritório esteja dentro do resultado da subconsulta.

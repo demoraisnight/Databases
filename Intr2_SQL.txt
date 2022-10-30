@@ -1,0 +1,79 @@
+Filtrando Consultas com WHERE
+
+    SELECT * FROM tipos_produto WHERE codigo = 1;
+    SELECT * FROM produtos WHERE descricao = 'Laptop';
+
+Consultas em Múltiplas Tabelas
+
+    SELECT p.codigo AS Código, p.descricao AS Descrição, p.preco AS Preço, tp.Descrição AS Tipo
+    FROM produtos AS p, tipos_produto AS tp
+    WHERE p.codigo_tipo_produto = tp.codigo;
+
+    OBS: Sempre que houver consulta com múltiplas tabelas, devemos fazer a filtragem observando as
+    chaves estrangeiras de uma tabela fazendo referência às chaves primárias da outra, independente
+    da quantidade de relacionamentos.
+
+Junção de Tabelas
+
+    Produto Cartesiano:
+
+        SELECT c.id, c.nome, c.data_nascimento, c.telefone, p.cargo
+        FROM clientes AS c, profissoes AS p
+        WHERE c.id_profissao = p.id; # DADOS RELACIONADOS PELA FOREIGN KEY
+
+        OBS: Note o formato da data de nascimento; yyyy-mm-dd
+    
+    Inner Join: Uma junção interna é caracterizada por uma consulta que retorna apenas os dados que atendem
+    às condições de junção, isto é, quais linhas de uma tabela se relacionam com as linhas de outras
+    tabelas.
+
+        SELECT c.id, c.nome, c.data_nascimento, c.telefone, p.cargo
+        FROM clientes AS c INNER JOIN profissoes AS p
+        ON c.id_profissao = p.id;
+
+    Outer Join(left outer join): Uma junção externa é uma consulta que não requer que os registros de uma tabela possuam
+    registros equivalentes em outra.
+    O resultado desta consulta sempre contém todos os registros da tabela esquerda (ou seja, a
+    primeira tabela mencionada na consulta), mesmo quando não exista registros correspondentes
+    na tabela direira.
+    Desta forma, esta consulta retorna todos os valores da tabela esquerda com os valores da tabela
+    direita correspondente, ou quando não há correspondência retorna um valor NULL.
+
+        SELECT * FROM clientes
+        LEFT OUTER JOIN profissoes
+        ON clientes.id_profissao = profissoes.id;
+    
+    Outer Join(right outer join): Esta consulta é inversa à anterior e retorna sempre todos os registros da tabela à direita (a
+    segunda tabela mencionada na consulta), mesmo se não existir registro correspondente na
+    tabela à esquerda. Nestes casos, o valor NULL é retornado quando não há correspondência.
+ 
+        SELECT * FROM clientes
+        RIGHT OUTER JOIN profissoes
+        ON clientes.id_profissao = profissoes.id;
+
+
+    *****************************************************************************************     
+
+    Junção Cruzada (Cross Join) é uma junção entre todos os campos de ambas as tabelas.
+
+        SELECT c.id, c.nome, c.data_nascimento, c.telefone, p.cargo
+        FROM clientes AS c
+        CROSS JOIN profissoes AS p;
+        Neste exemplo para cada cliente colocamos um linha com cada profissão.
+
+    Auto Junção (Self Join) realiza uma auto junção da própria tabela.
+
+        SELECT a.nome AS Consumidor1, b.nome AS Consumidor2, a.cidade
+        FROM consumidor AS a
+        INNER JOIN consumidor AS b
+        ON a.id <> b.id
+        AND a.cidade = b.cidade;
+        No exemplo acima estamos realizando um Self Join onde os ids sejam diferentes mas a cidade
+        seja igual.
+    
+    Junção Baseada em Comparador (Equi-Join) traz todos os registros das tabelas utilizando
+    operador de comparação.
+    
+
+    Junção Natural (Natural Join) traz todos os registros das tabelas de acordo com os nomes
+    de atributos em comum.
